@@ -51,14 +51,14 @@ const options = [
     </div>
 
     <!-- Tab triggers -->
-    <div class="flex items-center gap-1 bg-sdd-elevated p-1 rounded-lg border border-sdd-border/60 text-xs font-mono">
+    <div class="flex items-center gap-1 bg-sdd-elevated p-1 rounded-lg border border-sdd-border/60 text-xs font-mono overflow-x-auto max-w-full py-1">
       {options.map((opt, i) => (
         <button
           type="button"
           data-tab={opt.id}
           class={i === 0 
-            ? "tab-btn px-2.5 py-1 rounded transition-all flex items-center gap-1.5 bg-sdd-border text-sdd-accent font-semibold" 
-            : "tab-btn px-2.5 py-1 rounded transition-all flex items-center gap-1.5 text-sdd-muted hover:text-sdd-text hover:bg-sdd-border/40"}
+            ? "tab-btn px-2.5 py-1 rounded transition-all flex items-center gap-1.5 bg-sdd-border text-sdd-accent font-semibold shrink-0" 
+            : "tab-btn px-2.5 py-1 rounded transition-all flex items-center gap-1.5 text-sdd-muted hover:text-sdd-text hover:bg-sdd-border/40 shrink-0"}
         >
           <span>{opt.icon}</span>
           <span class="hidden sm:inline">{opt.label}</span>

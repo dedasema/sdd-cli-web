@@ -113,10 +113,56 @@ const sections: { category: string; items: SectionItem[] }[] = [
     </div>
   </div>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-12">
+    <!-- Mobile Table of Contents Toggle Banner -->
+    <div class="lg:hidden mb-6">
+      <button
+        id="docs-mobile-toc-toggle"
+        type="button"
+        class="w-full py-3 px-4 rounded-xl bg-sdd-elevated border border-sdd-border flex items-center justify-between text-xs font-mono text-sdd-text hover:border-sdd-accent transition-colors"
+        aria-expanded="false"
+      >
+        <span class="flex items-center gap-2">
+          <span class="text-sdd-accent">☰</span>
+          <span class="font-bold">{isEs ? 'Índice de la Documentación' : 'Documentation Index'}</span>
+        </span>
+        <span class="flex items-center gap-2 text-sdd-muted text-[11px]">
+          <span id="docs-toc-status">{isEs ? 'Mostrar' : 'Show'}</span>
+          <svg id="docs-toc-arrow" class="w-4 h-4 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </button>
+
+      <!-- Collapsible Mobile TOC Container -->
+      <div id="docs-mobile-toc-menu" class="hidden mt-2 p-4 rounded-xl bg-sdd-elevated border border-sdd-border shadow-xl">
+        <nav class="space-y-4 text-xs font-mono max-h-80 overflow-y-auto pr-1">
+          {sections.map((sec) => (
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-sdd-muted/80 font-bold mb-2 pt-1">
+                {sec.category}
+              </div>
+              <ul class="space-y-1.5 pl-2 border-l border-sdd-border/80">
+                {sec.items.map((item) => (
+                  <li>
+                    <a
+                      href={`#${item.id}`}
+                      class="docs-mobile-link block py-1 px-2 rounded text-sdd-muted hover:text-sdd-accent hover:bg-sdd-bg/60 transition-colors"
+                    >
+                      {item.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      </div>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-      <!-- Sidebar Navigation -->
-      <aside class="lg:col-span-3">
+      <!-- Desktop Sidebar Navigation -->
+      <aside class="hidden lg:block lg:col-span-3">
         <div class="lg:sticky lg:top-24 space-y-6">
           <div class="p-4 rounded-xl bg-sdd-elevated border border-sdd-border">
             <div class="flex items-center justify-between mb-3 pb-2 border-b border-sdd-border">
@@ -171,4 +217,32 @@ const sections: { category: string; items: SectionItem[] }[] = [
       </article>
     </div>
   </div>
+
+  <script>
+    const tocToggle = document.getElementById('docs-mobile-toc-toggle');
+    const tocMenu = document.getElementById('docs-mobile-toc-menu');
+    const tocStatus = document.getElementById('docs-toc-status');
+    const tocArrow = document.getElementById('docs-toc-arrow');
+    const mobileLinks = document.querySelectorAll('.docs-mobile-link');
+
+    if (tocToggle && tocMenu && tocStatus && tocArrow) {
+      tocToggle.addEventListener('click', () => {
+        const isExpanded = tocToggle.getAttribute('aria-expanded') === 'true';
+        tocToggle.setAttribute('aria-expanded', String(!isExpanded));
+        tocMenu.classList.toggle('hidden');
+        tocArrow.classList.toggle('rotate-180');
+        tocStatus.textContent = isExpanded ? (tocStatus.textContent === 'Ocultar' ? 'Mostrar' : 'Show') : (tocStatus.textContent === 'Mostrar' ? 'Ocultar' : 'Hide');
+      });
+
+      mobileLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          tocMenu.classList.add('hidden');
+          tocArrow.classList.remove('rotate-180');
+          tocToggle.setAttribute('aria-expanded', 'false');
+          if (tocStatus.textContent === 'Ocultar') tocStatus.textContent = 'Mostrar';
+          if (tocStatus.textContent === 'Hide') tocStatus.textContent = 'Show';
+        });
+      });
+    }
+  </script>
 </Layout>
