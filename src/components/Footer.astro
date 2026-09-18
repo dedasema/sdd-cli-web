@@ -23,6 +23,9 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="flex items-center gap-6 text-xs font-mono text-sdd-muted">
+        <a href={isEs ? '/es/docs' : '/docs'} class="text-sdd-accent hover:text-sdd-accent-alt transition-colors">
+          {isEs ? 'Documentación' : 'Documentation'}
+        </a>
         <a href="https://github.com/dedasema/sdd-cli" target="_blank" rel="noopener noreferrer" class="hover:text-sdd-text transition-colors">
           GitHub
         </a>

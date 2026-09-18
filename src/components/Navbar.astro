@@ -24,16 +24,16 @@ const homeHref = isEs ? '/es/' : '/';
 
     <!-- Nav Links -->
     <nav class="flex items-center gap-6">
-      <a href="#features" class="hidden md:inline-block text-sm text-sdd-muted hover:text-sdd-text transition-colors">
+      <a href={`${homeHref}#features`} class="hidden md:inline-block text-sm text-sdd-muted hover:text-sdd-text transition-colors">
         {isEs ? '¿Por qué SDD?' : 'Why SDD?'}
       </a>
-      <a href="#lifecycle" class="hidden md:inline-block text-sm text-sdd-muted hover:text-sdd-text transition-colors">
+      <a href={`${homeHref}#lifecycle`} class="hidden md:inline-block text-sm text-sdd-muted hover:text-sdd-text transition-colors">
         {isEs ? 'Ciclo de 7 Fases' : '7-Phase Cycle'}
       </a>
-      <a href="#docs" class="text-sm text-sdd-muted hover:text-sdd-text transition-colors">
+      <a href={isEs ? '/es/docs' : '/docs'} class="text-sm text-sdd-accent hover:text-sdd-accent-alt transition-colors font-medium">
         {isEs ? 'Documentación' : 'Docs'}
       </a>
-      <a href="#slash-commands" class="hidden sm:inline-block text-sm text-sdd-muted hover:text-sdd-text transition-colors">
+      <a href={`${homeHref}#slash-commands`} class="hidden sm:inline-block text-sm text-sdd-muted hover:text-sdd-text transition-colors">
         {isEs ? 'Comandos Slash' : 'Slash Commands'}
       </a>
       

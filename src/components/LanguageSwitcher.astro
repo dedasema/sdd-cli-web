@@ -4,7 +4,15 @@ interface Props {
 }
 
 const { currentLang } = Astro.props;
-const targetUrl = currentLang === 'en' ? '/es/' : '/';
+const currentPath = Astro.url.pathname;
+let targetUrl = '/';
+
+if (currentLang === 'en') {
+  targetUrl = currentPath.startsWith('/docs') ? '/es/docs' : '/es/';
+} else {
+  targetUrl = currentPath.startsWith('/es/docs') ? '/docs' : '/';
+}
+
 const targetLabel = currentLang === 'en' ? 'ES' : 'EN';
 const altLabel = currentLang === 'en' ? 'Cambiar a Español' : 'Switch to English';
 ---

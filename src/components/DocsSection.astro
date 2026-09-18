@@ -137,16 +137,45 @@ const slashCommands = [
           <p class="font-sans text-sdd-muted leading-relaxed">
             {isEs ? (
               <>
-                <strong>Regla de Oro:</strong> Habla en tu idioma preferido (ej. Español) en el chat con tu agente. Sin embargo, todos los archivos generados en <code class="text-sdd-text">.sdd/</code>, especificaciones RFC 2119, código fuente, nombres de variables y mensajes de commit <em>SIEMPRE</em> se mantienen en inglés técnico estándar.
+                <strong>Regla de Oro:</strong> Habla en tu idioma preferido (ej. Español) en el chat con tu agente. Sin embargo, todos los archivos generados en <code class="text-sdd-text">openspec/</code>, especificaciones RFC 2119, código fuente, nombres de variables y mensajes de commit <em>SIEMPRE</em> se mantienen en inglés técnico estándar.
               </>
             ) : (
               <>
-                <strong>Golden Rule:</strong> Converse naturally in your human tongue (e.g. Spanish, German, French) with your AI assistant. However, all generated specifications in <code class="text-sdd-text">.sdd/</code>, RFC 2119 keywords, code, schemas, and commit logs are <em>STRICTLY</em> written in standardized technical English.
+                <strong>Golden Rule:</strong> Converse naturally in your human tongue (e.g. Spanish, German, French) with your AI assistant. However, all generated specifications in <code class="text-sdd-text">openspec/</code>, RFC 2119 keywords, code, schemas, and commit logs are <em>STRICTLY</em> written in standardized technical English.
               </>
             )}
           </p>
         </div>
       </div>
+    </div>
+
+    <!-- Call-to-action to Full Documentation Page -->
+    <div class="mt-12 p-8 rounded-2xl bg-gradient-to-r from-sdd-elevated via-sdd-elevated/80 to-sdd-bg border border-sdd-accent/30 flex flex-col md:flex-row items-center justify-between gap-6 shadow-terminal">
+      <div class="space-y-2 text-center md:text-left">
+        <div class="inline-flex items-center gap-2 text-xs font-mono text-sdd-accent font-bold">
+          <span class="w-2 h-2 rounded-full bg-sdd-accent"></span>
+          <span>{isEs ? 'Manual Técnico Completo' : 'Complete Technical Manual'}</span>
+        </div>
+        <h4 class="text-xl sm:text-2xl font-mono font-bold text-sdd-text">
+          {isEs ? '¿Quieres profundizar en OpenSpec, Gates y AGENTS.md?' : 'Looking for complete OpenSpec, Gates & AGENTS.md guide?'}
+        </h4>
+        <p class="text-xs sm:text-sm text-sdd-muted font-sans max-w-2xl">
+          {isEs 
+            ? 'Explora la anatomía completa de openspec/ (specs, changes, archive), los 4 artefactos markdown en detalle, plantillas de AGENTS.md y opciones exhaustivas del CLI.' 
+            : 'Explore full openspec/ directory anatomy (specs, changes, archive), the 4 markdown artifacts, AGENTS.md system prompt templates, and in-depth CLI arguments.'}
+        </p>
+      </div>
+
+      <a
+        href={isEs ? '/es/docs' : '/docs'}
+        class="shrink-0 px-6 py-3.5 rounded-xl bg-sdd-accent text-sdd-bg font-mono font-bold text-sm hover:bg-sdd-accent-alt transition-colors inline-flex items-center gap-2 shadow-terminal"
+      >
+        <span>{isEs ? 'Leer la Documentación Completa' : 'Read Full Documentation'}</span>
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
     </div>
   </div>
 </section>

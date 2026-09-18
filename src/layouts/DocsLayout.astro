@@ -1,0 +1,174 @@
+---
+import Layout from './Layout.astro';
+
+interface SectionItem {
+  id: string;
+  title: string;
+  badge?: string;
+}
+
+interface Props {
+  lang?: 'en' | 'es';
+  title?: string;
+  description?: string;
+  activeSection?: string;
+}
+
+const {
+  lang = 'en',
+  title = lang === 'es' ? 'Documentación Técnica | SDD-CLI' : 'Technical Documentation | SDD-CLI',
+  description = lang === 'es' 
+    ? 'Guía completa, arquitectura OpenSpec, ciclo de 7 fases, referencia de comandos y manual de agentes para SDD-CLI.'
+    : 'Comprehensive technical reference, OpenSpec directory anatomy, 7-phase lifecycle, CLI commands, and agent integration manual for SDD-CLI.'
+} = Astro.props;
+
+const isEs = lang === 'es';
+
+const sections: { category: string; items: SectionItem[] }[] = [
+  {
+    category: isEs ? 'Fundamentos' : 'Fundamentals',
+    items: [
+      { id: 'overview', title: isEs ? '1. Visión General y Filosofía' : '1. Overview & Philosophy' },
+      { id: 'why-sdd', title: isEs ? '2. Por qué SDD vs Vibe-Coding' : '2. Why SDD vs Vibe-Coding' },
+      { id: 'rfc-2119', title: isEs ? '3. Normas RFC 2119 & Given/When/Then' : '3. RFC 2119 & Given/When/Then' },
+      { id: 'human-gates', title: isEs ? '4. Sistema de Compuertas Humanas' : '4. Human Gate System' },
+    ]
+  },
+  {
+    category: isEs ? 'Arquitectura del Repositorio' : 'Repository Architecture',
+    items: [
+      { id: 'openspec-anatomy', title: isEs ? '5. Anatomía del Directorio OpenSpec' : '5. OpenSpec Directory Anatomy' },
+      { id: 'openspec-config', title: isEs ? '6. Archivo config.yaml' : '6. config.yaml Specification' },
+    ]
+  },
+  {
+    category: isEs ? 'El Ciclo de 7 Fases' : 'The 7-Phase Lifecycle',
+    items: [
+      { id: 'phase-1-proposal', title: isEs ? 'Fase 1: Proposal (proposal.md)' : 'Phase 1: Proposal (proposal.md)' },
+      { id: 'phase-2-specs', title: isEs ? 'Fase 2: Specs (specs.md)' : 'Phase 2: Specs (specs.md)' },
+      { id: 'phase-3-design', title: isEs ? 'Fase 3: Design (design.md)' : 'Phase 3: Design (design.md)' },
+      { id: 'phase-4-tasks', title: isEs ? 'Fase 4: Tasks (tasks.md)' : 'Phase 4: Tasks (tasks.md)' },
+      { id: 'phase-5-apply', title: isEs ? 'Fase 5: Apply (sdd-apply)' : 'Phase 5: Apply (sdd-apply)' },
+      { id: 'phase-6-verify', title: isEs ? 'Fase 6: Verify (sdd-verify)' : 'Phase 6: Verify (sdd-verify)' },
+      { id: 'phase-7-archive', title: isEs ? 'Fase 7: Archive (sdd-archive)' : 'Phase 7: Archive (sdd-archive)' },
+    ]
+  },
+  {
+    category: isEs ? 'Integración con Agentes de IA' : 'AI Agent Integration',
+    items: [
+      { id: 'agents-md', title: isEs ? '7. AGENTS.md y Delimitadores' : '7. AGENTS.md & Rules Delimiters' },
+      { id: 'language-contract', title: isEs ? '8. Contrato de Idioma' : '8. The Language Contract' },
+      { id: 'slash-commands', title: isEs ? '9. Referencia de Slash Commands' : '9. Slash Commands Reference' },
+    ]
+  },
+  {
+    category: isEs ? 'Manual de Comandos CLI' : 'CLI Command Reference',
+    items: [
+      { id: 'cli-sdd', title: 'sdd' },
+      { id: 'cli-init', title: 'sdd init' },
+      { id: 'cli-new', title: 'sdd new' },
+      { id: 'cli-status', title: 'sdd status' },
+      { id: 'cli-verify', title: 'sdd verify' },
+      { id: 'cli-archive', title: 'sdd archive' },
+    ]
+  }
+];
+---
+
+<Layout lang={lang} title={title} description={description}>
+  <div class="border-b border-sdd-border bg-sdd-elevated/40 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href={isEs ? '/es/' : '/'} class="text-xs font-mono text-sdd-muted hover:text-sdd-accent flex items-center gap-1.5 transition-colors">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          {isEs ? 'Volver al Inicio' : 'Back to Home'}
+        </a>
+        <span class="text-sdd-border font-mono">/</span>
+        <span class="text-xs font-mono text-sdd-text font-semibold flex items-center gap-1.5">
+          <span class="text-sdd-accent">#</span>
+          {isEs ? 'Documentación Oficial' : 'Official Documentation'}
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="hidden sm:inline-flex px-2.5 py-0.5 rounded text-[11px] font-mono bg-sdd-bg border border-sdd-border text-sdd-accent">
+          OpenSpec v1.0
+        </span>
+        <a 
+          href="https://github.com/dedasema/sdd-cli" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="text-xs font-mono text-sdd-muted hover:text-sdd-text flex items-center gap-1 transition-colors"
+        >
+          <span>GitHub</span>
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+      <!-- Sidebar Navigation -->
+      <aside class="lg:col-span-3">
+        <div class="lg:sticky lg:top-24 space-y-6">
+          <div class="p-4 rounded-xl bg-sdd-elevated border border-sdd-border">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-sdd-border">
+              <span class="text-xs font-mono font-bold uppercase tracking-wider text-sdd-accent">
+                {isEs ? 'Índice de Temas' : 'Table of Contents'}
+              </span>
+              <span class="text-[10px] font-mono text-sdd-muted">v0.5.0</span>
+            </div>
+
+            <nav class="space-y-4 text-xs font-mono max-h-[calc(100vh-14rem)] overflow-y-auto pr-1">
+              {sections.map((sec) => (
+                <div>
+                  <div class="text-[11px] uppercase tracking-wider text-sdd-muted/80 font-bold mb-2 pt-1">
+                    {sec.category}
+                  </div>
+                  <ul class="space-y-1 pl-2 border-l border-sdd-border/80">
+                    {sec.items.map((item) => (
+                      <li>
+                        <a
+                          href={`#${item.id}`}
+                          class="block py-1 px-1.5 rounded text-sdd-muted hover:text-sdd-accent hover:bg-sdd-bg/60 transition-colors truncate"
+                        >
+                          {item.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </nav>
+          </div>
+
+          <!-- Quick Command Cheat Sheet Widget -->
+          <div class="p-4 rounded-xl bg-sdd-elevated/70 border border-sdd-border/80 text-xs font-mono">
+            <div class="text-[11px] text-sdd-accent font-bold mb-2 flex items-center gap-1.5">
+              <span>⚡</span>
+              <span>{isEs ? 'Acceso Rápido CLI' : 'CLI Quick Access'}</span>
+            </div>
+            <div class="space-y-1.5 text-[11px] text-sdd-muted">
+              <div><code class="text-sdd-text font-bold">sdd init</code> {isEs ? '→ Crear openspec/' : '→ Scaffold repo'}</div>
+              <div><code class="text-sdd-text font-bold">sdd new &lt;feat&gt;</code> {isEs ? '→ Nueva propuesta' : '→ New proposal'}</div>
+              <div><code class="text-sdd-text font-bold">sdd status</code> {isEs ? '→ Inspeccionar gates' : '→ View gates'}</div>
+              <div><code class="text-sdd-text font-bold">sdd verify</code> {isEs ? '→ Validar spec/tests' : '→ Validate rules'}</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Docs Content Area -->
+      <article class="lg:col-span-9 min-w-0">
+        <slot />
+      </article>
+    </div>
+  </div>
+</Layout>

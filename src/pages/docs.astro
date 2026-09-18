@@ -1,0 +1,729 @@
+---
+import DocsLayout from '../layouts/DocsLayout.astro';
+---
+
+<DocsLayout
+  lang="en"
+  title="SDD CLI Documentation | Architecture, OpenSpec, Lifecycle & Commands"
+  description="Comprehensive documentation for SDD-CLI: OpenSpec directory anatomy, 7-phase deterministic lifecycle, RFC 2119 specs, CLI commands, and AI agent integration."
+>
+  <div class="space-y-16">
+    <!-- Header intro banner -->
+    <header class="pb-8 border-b border-sdd-border">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sdd-accent/30 bg-sdd-accent/10 text-sdd-accent text-xs font-mono mb-4">
+        <span>Spec-Driven Development CLI</span>
+        <span class="text-sdd-border">•</span>
+        <span>Version 0.5.0</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-mono font-bold text-sdd-text tracking-tight mb-4">
+        SDD CLI <span class="text-sdd-accent">Technical Documentation</span>
+      </h1>
+      <p class="text-base sm:text-lg text-sdd-muted font-sans leading-relaxed max-w-3xl">
+        SDD CLI enforces deterministic, specification-first engineering workflows for autonomous AI coding agents. 
+        It replaces speculative "vibe-coding" with explicit human checkpoints, normative RFC 2119 language contracts, and git-native OpenSpec directories.
+      </p>
+    </header>
+
+    <!-- Section 1: Overview & Philosophy -->
+    <section id="overview" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">01</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">Overview & Philosophy</h2>
+      </div>
+
+      <div class="prose prose-invert max-w-none text-sdd-muted space-y-4 font-sans text-sm sm:text-base leading-relaxed">
+        <p>
+          As Large Language Models (LLMs) and autonomous programming agents (such as Antigravity, Claude Code, Cursor, Copilot, OpenCode, and Codex) evolve, their speed in outputting code exceeds human ability to safely review diffs. Left unbounded, agents make silent architectural assumptions, introduce hallucinated parameters, degrade unit test validity, and accumulate brittle technical debt.
+        </p>
+        <p>
+          <strong class="text-sdd-text font-mono">Spec-Driven Development (SDD)</strong> introduces a simple yet foundational shift: <strong class="text-sdd-accent font-mono">No AI agent writes code before a human approves the specification.</strong>
+        </p>
+      </div>
+
+      <!-- Core tenets cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+        <div class="p-4 rounded-xl bg-sdd-elevated border border-sdd-border">
+          <div class="text-sdd-accent font-mono font-bold text-sm mb-1">Explicit Intent</div>
+          <p class="text-xs text-sdd-muted leading-normal">
+            Problems, goals, and non-goals are pinned before any architectural diagram or code module is designed.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-sdd-elevated border border-sdd-border">
+          <div class="text-sdd-accent-alt font-mono font-bold text-sm mb-1">Contractual Truth</div>
+          <p class="text-xs text-sdd-muted leading-normal">
+            Acceptance criteria are specified with RFC 2119 keywords and Given/When/Then scenarios that double as test suites.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-sdd-elevated border border-sdd-border">
+          <div class="text-sdd-warning font-mono font-bold text-sm mb-1">Human Gate Sovereignty</div>
+          <p class="text-xs text-sdd-muted leading-normal">
+            Transitions between phases require explicit human sign-off. Agents are gate-blocked from advancing prematurely.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Why SDD vs Vibe-Coding -->
+    <section id="why-sdd" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">02</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">Why SDD vs Vibe-Coding</h2>
+      </div>
+
+      <p class="text-sdd-muted font-sans text-sm sm:text-base leading-relaxed">
+        "Vibe-coding" is the antipattern of feeding unstructured, open-ended conversational prompts to an AI and hoping the synthesized implementation matches unstated business constraints. Compare the two paradigms:
+      </p>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono border border-sdd-border rounded-lg overflow-hidden">
+          <thead class="bg-sdd-elevated text-sdd-text uppercase border-b border-sdd-border">
+            <tr>
+              <th class="p-3">Dimension</th>
+              <th class="p-3 text-red-400">Vibe-Coding (Unconstrained)</th>
+              <th class="p-3 text-sdd-accent">SDD (Spec-Driven Development)</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-sdd-border bg-sdd-bg">
+            <tr>
+              <td class="p-3 text-sdd-text font-bold">Initial Trigger</td>
+              <td class="p-3 text-sdd-muted">Vague chat prompt: "add auth and stripe payments"</td>
+              <td class="p-3 text-sdd-accent-alt">Structured discovery: <code class="text-sdd-text">proposal.md</code> with problem, scope & non-goals</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-sdd-text font-bold">Requirement Clarity</td>
+              <td class="p-3 text-sdd-muted">Implicit assumptions, subjective LLM interpretations</td>
+              <td class="p-3 text-sdd-accent-alt">Normative RFC 2119 keywords (<code class="text-sdd-accent">MUST</code>, <code class="text-sdd-accent">SHOULD</code>, <code class="text-sdd-accent">MAY</code>)</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-sdd-text font-bold">Control Points</td>
+              <td class="p-3 text-sdd-muted">None. Agent modifies 30 files across repository simultaneously</td>
+              <td class="p-3 text-sdd-accent-alt">4 review gates before any application code is touched</td>
+            </tr>
+            <tr>
+              <td class="p-3 text-sdd-text font-bold">Acceptance Testing</td>
+              <td class="p-3 text-sdd-muted">"Looks right in browser" or synthetic shallow tests</td>
+              <td class="p-3 text-sdd-accent-alt">Deterministic Given/When/Then criteria validated by <code class="text-sdd-text">sdd verify</code></td>
+            </tr>
+            <tr>
+              <td class="p-3 text-sdd-text font-bold">Historical Audit</td>
+              <td class="p-3 text-sdd-muted">Lost in ephemeral chat threads and squashed git commits</td>
+              <td class="p-3 text-sdd-accent-alt">Permanent audit trail archived in <code class="text-sdd-text">openspec/changes/archive/</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 3: RFC 2119 & Given/When/Then -->
+    <section id="rfc-2119" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">03</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">RFC 2119 & Given / When / Then Standards</h2>
+      </div>
+
+      <div class="space-y-4 text-sdd-muted font-sans text-sm sm:text-base leading-relaxed">
+        <p>
+          LLMs excel when prompt ambiguity is reduced to zero. In SDD, all functional specifications in <code class="text-sdd-text">specs.md</code> MUST adhere to internet standards established in <strong class="text-sdd-text">IETF RFC 2119</strong>.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+        <div class="p-4 rounded-xl bg-sdd-elevated border border-sdd-border">
+          <div class="text-sdd-accent font-bold mb-2 flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-sdd-accent/10 border border-sdd-accent/40">MUST / MUST NOT</span>
+            <span class="text-sdd-text text-[11px]">Absolute Requirements</span>
+          </div>
+          <p class="font-sans text-sdd-muted text-xs leading-relaxed">
+            Non-negotiable criteria. If the agent fails to satisfy any MUST statement or executes a MUST NOT condition, the verification gate categorically fails.
+          </p>
+          <div class="mt-3 p-2.5 rounded bg-sdd-bg border border-sdd-border text-[11px] text-sdd-text">
+            "The authentication token <span class="text-sdd-accent font-bold">MUST</span> expire after 15 minutes of inactivity."
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-sdd-elevated border border-sdd-border">
+          <div class="text-sdd-accent-alt font-bold mb-2 flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-sdd-accent-alt/10 border border-sdd-accent-alt/40">SHOULD / MAY</span>
+            <span class="text-sdd-text text-[11px]">Recommended & Optional</span>
+          </div>
+          <p class="font-sans text-sdd-muted text-xs leading-relaxed">
+            Valid reasons may exist in particular circumstances to ignore SHOULD items, but the full implications must be understood and documented.
+          </p>
+          <div class="mt-3 p-2.5 rounded bg-sdd-bg border border-sdd-border text-[11px] text-sdd-text">
+            "Responses <span class="text-sdd-accent-alt font-bold">SHOULD</span> include an ETag header for client-side caching."
+          </div>
+        </div>
+      </div>
+
+      <!-- Given/When/Then Example -->
+      <div class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="font-mono font-bold text-sm text-sdd-text">Behavioral Acceptance: Given / When / Then</h4>
+          <span class="text-[11px] font-mono text-sdd-accent">Gherkin-Style Determinism</span>
+        </div>
+        <p class="text-xs text-sdd-muted font-sans">
+          Every requirement in <code class="text-sdd-text">specs.md</code> is paired with behavioral test cases formatted as:
+        </p>
+        <pre class="p-3.5 rounded-lg bg-sdd-bg border border-sdd-border text-xs text-sdd-text overflow-x-auto"><code>#### Scenario 1: Expired session refresh
+- **Given** an authenticated user whose JWT expired 3 minutes ago
+- **When** a request is made to `/api/v1/user/profile` with a valid refresh cookie
+- **Then** the service MUST issue a new pair of tokens with HTTP 200
+- **And** the user session activity timestamp MUST update in Redis</code></pre>
+      </div>
+    </section>
+
+    <!-- Section 4: Human Gate System -->
+    <section id="human-gates" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">04</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">The Human Gate System</h2>
+      </div>
+
+      <p class="text-sdd-muted font-sans text-sm sm:text-base leading-relaxed">
+        SDD CLI does not slow down AI agents; it places guardrails exactly where human judgment is vital. 
+        Each gate transitions state from <strong class="text-sdd-warning font-mono">Pending (Amber)</strong> to <strong class="text-sdd-accent font-mono">Approved (Green)</strong> only after explicit review:
+      </p>
+
+      <div class="space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg bg-sdd-elevated border border-sdd-border gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 1</span>
+            <span class="font-mono text-sm text-sdd-text font-bold">Proposal Sign-off</span>
+          </div>
+          <span class="text-xs text-sdd-muted font-sans">Validates problem definition, user impact, non-goals, and business alignment.</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg bg-sdd-elevated border border-sdd-border gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 2</span>
+            <span class="font-mono text-sm text-sdd-text font-bold">Specs Validation</span>
+          </div>
+          <span class="text-xs text-sdd-muted font-sans">Ensures RFC 2119 compliance and complete Given/When/Then acceptance coverage.</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg bg-sdd-elevated border border-sdd-border gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 3</span>
+            <span class="font-mono text-sm text-sdd-text font-bold">Design & Architecture Check</span>
+          </div>
+          <span class="text-xs text-sdd-muted font-sans">Reviews database schema migrations, API contracts, security vectors, and trade-offs.</span>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-lg bg-sdd-elevated border border-sdd-border gap-2">
+          <div class="flex items-center gap-3">
+            <span class="px-2 py-0.5 rounded text-xs font-mono font-bold bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 4</span>
+            <span class="font-mono text-sm text-sdd-text font-bold">Atomic Task Breakdown</span>
+          </div>
+          <span class="text-xs text-sdd-muted font-sans">Approves ordered, granular implementation checklist. The agent is locked from coding before this gate passes.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: OpenSpec Directory Anatomy -->
+    <section id="openspec-anatomy" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">05</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">OpenSpec Directory Anatomy</h2>
+      </div>
+
+      <p class="text-sdd-muted font-sans text-sm sm:text-base leading-relaxed">
+        SDD repositories follow the standardized <strong class="text-sdd-text font-mono">OpenSpec</strong> filesystem structure under <code class="text-sdd-text">openspec/</code>. 
+        This directory is versioned directly in Git alongside your project source code.
+      </p>
+
+      <div class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border font-mono text-xs text-sdd-text">
+        <div class="text-sdd-accent font-bold mb-3">// Standard OpenSpec Tree Layout</div>
+        <pre class="bg-sdd-bg p-4 rounded-lg border border-sdd-border/80 overflow-x-auto leading-relaxed"><code>.
+├── AGENTS.md                          <span class="text-sdd-muted"># System prompt instructions & rule boundaries</span>
+├── openspec/
+│   ├── config.yaml                    <span class="text-sdd-muted"># Project configuration & gate rules</span>
+│   ├── specs/                         <span class="text-sdd-muted"># Baseline permanent system specifications</span>
+│   │   ├── auth.spec.md
+│   │   ├── billing.spec.md
+│   │   └── api-gateway.spec.md
+│   ├── changes/                       <span class="text-sdd-muted"># Active feature proposals in flight</span>
+│   │   └── 2026-09-18-oauth2-flow/
+│   │       ├── proposal.md            <span class="text-sdd-muted"># Phase 1: Problem statement & scope</span>
+│   │       ├── specs.md               <span class="text-sdd-muted"># Phase 2: RFC 2119 & Given/When/Then</span>
+│   │       ├── design.md              <span class="text-sdd-muted"># Phase 3: Technical architecture</span>
+│   │       └── tasks.md               <span class="text-sdd-muted"># Phase 4: Atomic step checklist</span>
+│   └── changes/archive/               <span class="text-sdd-muted"># Immutable log of completed & merged specs</span>
+│       ├── 2026-08-01-initial-db/
+│       └── 2026-08-20-rate-limiter/
+└── src/                               <span class="text-sdd-muted"># Production application source code</span></code></pre>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2 font-mono text-xs">
+        <div class="p-4 rounded-xl bg-sdd-bg border border-sdd-border">
+          <div class="text-sdd-accent-alt font-bold mb-1">openspec/specs/</div>
+          <p class="font-sans text-sdd-muted text-xs leading-relaxed">
+            The evergreen, living truth of your architecture. When a change archives, relevant modifications merge back into baseline specs here.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-sdd-bg border border-sdd-border">
+          <div class="text-sdd-accent font-bold mb-1">openspec/changes/</div>
+          <p class="font-sans text-sdd-muted text-xs leading-relaxed">
+            Active changes currently going through the 7-phase cycle. Each change contains its own 4-stage document set.
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-sdd-bg border border-sdd-border">
+          <div class="text-sdd-warning font-bold mb-1">openspec/changes/archive/</div>
+          <p class="font-sans text-sdd-muted text-xs leading-relaxed">
+            Frozen, read-only audit records of past changes after passing Phase 6 (Verify) and Phase 7 (Archive).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: config.yaml -->
+    <section id="openspec-config" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">06</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">openspec/config.yaml Specification</h2>
+      </div>
+
+      <p class="text-sdd-muted font-sans text-sm sm:text-base leading-relaxed">
+        The <code class="text-sdd-text">config.yaml</code> file controls verification strictness, automated test commands, file path glob patterns, and language enforcement:
+      </p>
+
+      <div class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border">
+        <div class="flex items-center justify-between mb-3 text-xs font-mono">
+          <span class="text-sdd-text font-bold">openspec/config.yaml</span>
+          <span class="text-sdd-accent">YAML Schema v1</span>
+        </div>
+        <pre class="bg-sdd-bg p-4 rounded-lg border border-sdd-border text-xs text-sdd-text overflow-x-auto leading-relaxed font-mono"><code>version: "1.0"
+project:
+  name: "ecommerce-api"
+  language: "typescript"
+  package_manager: "pnpm"
+
+standards:
+  rfc2119: true
+  acceptance_format: "given_when_then"
+  spec_language: "en"             # Specs & code must strictly be English
+
+verification:
+  test_command: "pnpm test:run"
+  lint_command: "pnpm lint"
+  typecheck_command: "pnpm tsc --noEmit"
+  strict_rfc_check: true
+
+gates:
+  require_proposal_approval: true
+  require_spec_approval: true
+  require_design_approval: true
+  require_task_approval: true</code></pre>
+      </div>
+    </section>
+
+    <!-- Section 7: The 7-Phase Lifecycle Deep Dive -->
+    <section id="phase-1-proposal" class="scroll-mt-24 space-y-8">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">07</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">The 7-Phase Lifecycle Deep Dive</h2>
+      </div>
+
+      <!-- Phase 1 -->
+      <div class="p-6 rounded-xl bg-sdd-elevated border border-sdd-border space-y-4">
+        <div class="flex items-center justify-between border-b border-sdd-border pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📄</span>
+            <h3 class="font-mono font-bold text-lg text-sdd-text">Phase 1: Proposal (<code class="text-sdd-accent">proposal.md</code>)</h3>
+          </div>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 1</span>
+        </div>
+        <p class="text-sm font-sans text-sdd-muted leading-relaxed">
+          The purpose of the proposal is to clearly articulate the problem, why existing solutions are insufficient, what success looks like, and what is explicitly OUT of scope.
+        </p>
+        <div class="p-4 rounded-lg bg-sdd-bg border border-sdd-border text-xs font-mono space-y-2">
+          <div class="text-sdd-accent-alt font-bold">Standard proposal.md Sections:</div>
+          <ul class="list-disc list-inside text-sdd-muted space-y-1">
+            <li><code class="text-sdd-text">## Context & Problem Statement</code> — The exact friction or missing capability.</li>
+            <li><code class="text-sdd-text">## Proposed Solution Summary</code> — High-level technical direction.</li>
+            <li><code class="text-sdd-text">## Scope & Inclusions</code> — What will be built in this change.</li>
+            <li><code class="text-sdd-text">## Non-Goals & Out of Scope</code> — Explicit bounds preventing scope creep.</li>
+            <li><code class="text-sdd-text">## Human Sign-off</code> — Checkbox for the authorized engineer.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div id="phase-2-specs" class="p-6 rounded-xl bg-sdd-elevated border border-sdd-border space-y-4 scroll-mt-24">
+        <div class="flex items-center justify-between border-b border-sdd-border pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📋</span>
+            <h3 class="font-mono font-bold text-lg text-sdd-text">Phase 2: Specs (<code class="text-sdd-accent">specs.md</code>)</h3>
+          </div>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 2</span>
+        </div>
+        <p class="text-sm font-sans text-sdd-muted leading-relaxed">
+          Transforms intent into mathematically unambiguous requirements. Every item is phrased using RFC 2119 keywords accompanied by comprehensive Given/When/Then scenarios.
+        </p>
+        <div class="p-4 rounded-lg bg-sdd-bg border border-sdd-border text-xs font-mono space-y-2">
+          <div class="text-sdd-accent-alt font-bold">Verification Criteria:</div>
+          <p class="font-sans text-sdd-muted text-xs leading-relaxed">
+            Must specify exact status codes, error payload schemas, boundary conditions, timeout limits, and idempotency guarantees.
+          </p>
+        </div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div id="phase-3-design" class="p-6 rounded-xl bg-sdd-elevated border border-sdd-border space-y-4 scroll-mt-24">
+        <div class="flex items-center justify-between border-b border-sdd-border pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">⚙️</span>
+            <h3 class="font-mono font-bold text-lg text-sdd-text">Phase 3: Design (<code class="text-sdd-accent">design.md</code>)</h3>
+          </div>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 3</span>
+        </div>
+        <p class="text-sm font-sans text-sdd-muted leading-relaxed">
+          The engineering blueprint. Documents technical architecture, data model migrations, external dependencies, sequence flows, security considerations, and rejected alternatives.
+        </p>
+        <div class="p-4 rounded-lg bg-sdd-bg border border-sdd-border text-xs font-mono space-y-2">
+          <div class="text-sdd-accent-alt font-bold">Key Deliverables:</div>
+          <ul class="list-disc list-inside text-sdd-muted space-y-1">
+            <li>Database schema diffs (DDL, indexing, foreign keys)</li>
+            <li>Public API / RPC contracts (OpenAPI, GraphQL or Proto schemas)</li>
+            <li>Sequence diagrams of complex multi-service interactions</li>
+            <li>Failure mode analysis & rollback strategies</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div id="phase-4-tasks" class="p-6 rounded-xl bg-sdd-elevated border border-sdd-border space-y-4 scroll-mt-24">
+        <div class="flex items-center justify-between border-b border-sdd-border pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">☑️</span>
+            <h3 class="font-mono font-bold text-lg text-sdd-text">Phase 4: Tasks (<code class="text-sdd-accent">tasks.md</code>)</h3>
+          </div>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 4</span>
+        </div>
+        <p class="text-sm font-sans text-sdd-muted leading-relaxed">
+          The bridge between architectural design and agent execution. Tasks are structured as an atomic, ordered checklist with explicit dependency order.
+        </p>
+        <div class="p-4 rounded-lg bg-sdd-bg border border-sdd-border text-xs font-mono">
+          <div class="text-sdd-accent-alt font-bold mb-2">Example atomic task list:</div>
+          <pre class="text-sdd-muted"><code>- [ ] 1.0 Data Layer & Migrations
+  - [ ] 1.1 Create migration table `users_oauth_accounts` with unique constraint
+  - [ ] 1.2 Write repository interface and unit tests in `src/repositories/`
+- [ ] 2.0 Provider Service Implementation
+  - [ ] 2.1 Implement `OAuthProviderService` adhering to `specs.md#req-03`
+  - [ ] 2.2 Wire up HMAC state validation</code></pre>
+        </div>
+      </div>
+
+      <!-- Phase 5 -->
+      <div id="phase-5-apply" class="p-6 rounded-xl bg-sdd-elevated border border-sdd-border space-y-4 scroll-mt-24">
+        <div class="flex items-center justify-between border-b border-sdd-border pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🔨</span>
+            <h3 class="font-mono font-bold text-lg text-sdd-text">Phase 5: Apply (<code class="text-sdd-accent">sdd-apply</code>)</h3>
+          </div>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-sdd-warning/10 border border-sdd-warning/40 text-sdd-warning">Execution</span>
+        </div>
+        <p class="text-sm font-sans text-sdd-muted leading-relaxed">
+          Once Gates 1 through 4 are marked as approved, the AI agent enters execution mode via <code class="text-sdd-text">/sdd-apply</code>. 
+          The agent reads each item from <code class="text-sdd-text">tasks.md</code> sequentially, creates or edits the required files, checks off the item, and commits incremental progress.
+        </p>
+      </div>
+
+      <!-- Phase 6 -->
+      <div id="phase-6-verify" class="p-6 rounded-xl bg-sdd-elevated border border-sdd-border space-y-4 scroll-mt-24">
+        <div class="flex items-center justify-between border-b border-sdd-border pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🔍</span>
+            <h3 class="font-mono font-bold text-lg text-sdd-text">Phase 6: Verify (<code class="text-sdd-accent">sdd-verify</code>)</h3>
+          </div>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Gate 6</span>
+        </div>
+        <p class="text-sm font-sans text-sdd-muted leading-relaxed">
+          Automated proof of correctness. The CLI runs linting, type-checking, automated unit/integration test suites, and checks that every task checklist box is checked.
+        </p>
+        <pre class="bg-sdd-bg p-3.5 rounded-lg border border-sdd-border text-xs text-sdd-text font-mono"><code>$ sdd verify
+[✓] RFC 2119 keyword compliance: OK (14 MUST, 3 SHOULD detected)
+[✓] Acceptance Criteria scenarios: 5/5 covered
+[✓] Task checklist: 12/12 complete
+[✓] Test Runner: 42 passed, 0 failed (1.84s)
+[✓] Verification Gate: PASSED</code></pre>
+      </div>
+
+      <!-- Phase 7 -->
+      <div id="phase-7-archive" class="p-6 rounded-xl bg-sdd-elevated border border-sdd-border space-y-4 scroll-mt-24">
+        <div class="flex items-center justify-between border-b border-sdd-border pb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">📦</span>
+            <h3 class="font-mono font-bold text-lg text-sdd-text">Phase 7: Archive (<code class="text-sdd-accent">sdd-archive</code>)</h3>
+          </div>
+          <span class="text-xs font-mono px-2 py-0.5 rounded bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">Final</span>
+        </div>
+        <p class="text-sm font-sans text-sdd-muted leading-relaxed">
+          Freezes the verified change. The CLI moves the feature folder from <code class="text-sdd-text">openspec/changes/&lt;feature&gt;</code> to <code class="text-sdd-text">openspec/changes/archive/&lt;date&gt;-&lt;feature&gt;</code>, merges permanent specification updates back into <code class="text-sdd-text">openspec/specs/</code>, and creates a clean Git commit.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 8: Agent Integration & AGENTS.md -->
+    <section id="agents-md" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">08</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">Agent Integration & AGENTS.md</h2>
+      </div>
+
+      <p class="text-sdd-muted font-sans text-sm sm:text-base leading-relaxed">
+        Autonomous agents (Antigravity, Cursor, Claude Code, Copilot) read repository instructions from files like <code class="text-sdd-text">AGENTS.md</code> or <code class="text-sdd-text">.cursorrules</code>. 
+        SDD CLI injects deterministic rules wrapped in demarcated boundary blocks that agents cannot hallucinate past:
+      </p>
+
+      <div class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border space-y-3">
+        <div class="text-xs font-mono font-bold text-sdd-accent">AGENTS.md System Prompt Injection</div>
+        <pre class="bg-sdd-bg p-4 rounded-lg border border-sdd-border text-xs text-sdd-text overflow-x-auto leading-relaxed font-mono"><code>&lt;!-- SDD_CLI_RULES_START --&gt;
+# Spec-Driven Development (SDD) Autonomous Agent Rules
+
+1. HUMAN GATE PREREQUISITE:
+   Under NO circumstances shall you write, refactor, or delete project application code
+   unless `openspec/changes/&lt;current-feature&gt;/tasks.md` has been approved by the human user.
+
+2. SPEC FORMALISM:
+   All specifications MUST use IETF RFC 2119 keywords (MUST, MUST NOT, SHOULD, MAY).
+   Scenarios MUST follow Given / When / Then behavioral syntax.
+
+3. LANGUAGE CONTRACT:
+   You may converse with the developer in their natural human language (e.g. Spanish).
+   However, ALL files, code, comments, specs, schemas, and git commits MUST BE IN ENGLISH.
+&lt;!-- SDD_CLI_RULES_END --&gt;</code></pre>
+      </div>
+    </section>
+
+    <!-- Section 9: The Language Contract -->
+    <section id="language-contract" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">09</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">The SDD Language Contract</h2>
+      </div>
+
+      <div class="p-6 rounded-xl bg-sdd-elevated border border-sdd-accent/40 shadow-terminal space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🌐</span>
+          <h3 class="font-mono font-bold text-lg text-sdd-accent">Global Engineering Standard</h3>
+        </div>
+        <p class="text-sm font-sans text-sdd-text leading-relaxed">
+          One of SDD CLI's foundational innovations is eliminating language fragmentation in multi-national engineering teams:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
+          <div class="p-4 rounded-lg bg-sdd-bg border border-sdd-border">
+            <div class="text-sdd-accent-alt font-bold mb-1">Human Conversational Layer</div>
+            <p class="font-sans text-sdd-muted">
+              You may prompt your AI agent in Spanish, French, German, Japanese, or any language you prefer.
+            </p>
+          </div>
+          <div class="p-4 rounded-lg bg-sdd-bg border border-sdd-border">
+            <div class="text-sdd-accent font-bold mb-1">Artifact & Code Layer (Strict English)</div>
+            <p class="font-sans text-sdd-muted">
+              All specs in <code class="text-sdd-text">openspec/</code>, identifiers, variable names, database schemas, and git commits are generated strictly in standard technical English.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 10: Slash Commands Reference -->
+    <section id="slash-commands" class="scroll-mt-24 space-y-6">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">10</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">Slash Commands Reference for AI Agents</h2>
+      </div>
+
+      <p class="text-sdd-muted font-sans text-sm sm:text-base leading-relaxed">
+        When working inside AI IDEs (Antigravity, Claude Code, Cursor, Copilot), trigger specific phases using these standard slash commands:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd</span>
+          <p class="font-sans text-sdd-muted text-xs">General orchestrator. Analyzes current repo state, detects active gates, and advises next action.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-init</span>
+          <p class="font-sans text-sdd-muted text-xs">Scaffolds OpenSpec folder structure, copies prompt templates, and updates AGENTS.md.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-new &lt;feature&gt;</span>
+          <p class="font-sans text-sdd-muted text-xs">Initiates interactive discovery questionnaire and generates change folder skeleton.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-propose</span>
+          <p class="font-sans text-sdd-muted text-xs">Generates or refines Phase 1 <code class="text-sdd-text">proposal.md</code> with problem, scope & non-goals.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-spec</span>
+          <p class="font-sans text-sdd-muted text-xs">Translates approved proposal into Phase 2 RFC 2119 rules and Given/When/Then scenarios.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-design</span>
+          <p class="font-sans text-sdd-muted text-xs">Generates Phase 3 technical architecture, database schemas, and sequence flow diagrams.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-tasks</span>
+          <p class="font-sans text-sdd-muted text-xs">Deconstructs design into ordered, atomic checklists in Phase 4 <code class="text-sdd-text">tasks.md</code>.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-apply</span>
+          <p class="font-sans text-sdd-muted text-xs">Authorizes agent to begin writing code step-by-step according to <code class="text-sdd-text">tasks.md</code>.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-verify</span>
+          <p class="font-sans text-sdd-muted text-xs">Runs automated test runners, linters, and checks RFC 2119 acceptance criteria compliance.</p>
+        </div>
+        <div class="p-3.5 rounded-lg bg-sdd-elevated border border-sdd-border">
+          <span class="text-sdd-accent font-bold block mb-1">/sdd-archive</span>
+          <p class="font-sans text-sdd-muted text-xs">Freezes completed feature change, merges baseline specs, and moves to immutable archive.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 11: CLI Command Reference -->
+    <section id="cli-sdd" class="scroll-mt-24 space-y-8">
+      <div class="flex items-center gap-3">
+        <span class="w-8 h-8 rounded bg-sdd-elevated border border-sdd-border text-sdd-accent font-mono text-sm font-bold flex items-center justify-center">11</span>
+        <h2 class="text-2xl sm:text-3xl font-mono font-bold text-sdd-text">Complete CLI Command Reference</h2>
+      </div>
+
+      <!-- sdd -->
+      <div class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border space-y-3">
+        <div class="flex items-center justify-between">
+          <code class="text-sdd-accent font-bold text-base">sdd [options]</code>
+          <span class="text-xs font-mono text-sdd-muted">Global Binary</span>
+        </div>
+        <p class="text-xs text-sdd-muted font-sans">
+          Prints system help, active version, detected agent configurations, and available subcommands.
+        </p>
+        <pre class="bg-sdd-bg p-3.5 rounded-lg border border-sdd-border text-xs text-sdd-text font-mono"><code>$ sdd --help
+Usage: sdd &lt;command&gt; [options]
+
+Commands:
+  init       Initialize OpenSpec structure and AGENTS.md in current directory
+  new        Create a new feature proposal specification
+  status     Display active gates and current progress of changes
+  verify     Run linters, test suite, and spec acceptance checks
+  archive    Freeze and archive completed change into immutable history
+
+Options:
+  -v, --version  Show version number
+  -h, --help     Show help overview</code></pre>
+      </div>
+
+      <!-- sdd init -->
+      <div id="cli-init" class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border space-y-3 scroll-mt-24">
+        <div class="flex items-center justify-between">
+          <code class="text-sdd-accent font-bold text-base">sdd init [options]</code>
+          <span class="text-xs font-mono text-sdd-muted">Scaffold Command</span>
+        </div>
+        <p class="text-xs text-sdd-muted font-sans">
+          Scaffolds the <code class="text-sdd-text">openspec/</code> directory tree, creates default <code class="text-sdd-text">config.yaml</code>, and injects agent guardrails into <code class="text-sdd-text">AGENTS.md</code>.
+        </p>
+        <div class="text-xs font-mono text-sdd-accent-alt">Options:</div>
+        <ul class="text-xs font-mono text-sdd-muted list-disc list-inside space-y-1">
+          <li><code>--preset &lt;name&gt;</code> : Tailor config for specific agent setups (<code class="text-sdd-text">antigravity</code>, <code class="text-sdd-text">claude-code</code>, <code class="text-sdd-text">cursor</code>).</li>
+          <li><code>--force</code> : Overwrite existing configuration files.</li>
+        </ul>
+        <pre class="bg-sdd-bg p-3.5 rounded-lg border border-sdd-border text-xs text-sdd-text font-mono"><code>$ sdd init --preset antigravity
+[✓] Created openspec/
+[✓] Created openspec/specs/
+[✓] Created openspec/changes/
+[✓] Created openspec/changes/archive/
+[✓] Written openspec/config.yaml
+[✓] Injected SDD guardrails into AGENTS.md
+Initialization complete! Run 'sdd new &lt;feature-name&gt;' to start a change.</code></pre>
+      </div>
+
+      <!-- sdd new -->
+      <div id="cli-new" class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border space-y-3 scroll-mt-24">
+        <div class="flex items-center justify-between">
+          <code class="text-sdd-accent font-bold text-base">sdd new &lt;feature-name&gt;</code>
+          <span class="text-xs font-mono text-sdd-muted">Proposal Generator</span>
+        </div>
+        <p class="text-xs text-sdd-muted font-sans">
+          Spawns a new change folder under <code class="text-sdd-text">openspec/changes/&lt;date&gt;-&lt;feature-name&gt;</code> preloaded with markdown templates for the 4 design artifacts.
+        </p>
+        <pre class="bg-sdd-bg p-3.5 rounded-lg border border-sdd-border text-xs text-sdd-text font-mono"><code>$ sdd new oauth2-auth
+[✓] Created openspec/changes/2026-09-18-oauth2-auth/
+    ├── proposal.md (Phase 1 template)
+    ├── specs.md    (Phase 2 template)
+    ├── design.md   (Phase 3 template)
+    └── tasks.md    (Phase 4 template)
+Ready! Run '/sdd-propose' in your agent chat to fill out proposal.md.</code></pre>
+      </div>
+
+      <!-- sdd status -->
+      <div id="cli-status" class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border space-y-3 scroll-mt-24">
+        <div class="flex items-center justify-between">
+          <code class="text-sdd-accent font-bold text-base">sdd status [options]</code>
+          <span class="text-xs font-mono text-sdd-muted">Gate Inspector</span>
+        </div>
+        <p class="text-xs text-sdd-muted font-sans">
+          Inspects active changes and reports the human approval status of every gate.
+        </p>
+        <pre class="bg-sdd-bg p-3.5 rounded-lg border border-sdd-border text-xs text-sdd-text font-mono"><code>$ sdd status
+Active Change: 2026-09-18-oauth2-auth
+┌───────────────────────────┬─────────────┬──────────────────────────┐
+│ Phase & Gate               │ Status      │ Sign-off                 │
+├───────────────────────────┼─────────────┼──────────────────────────┤
+│ Gate 1: Proposal          │ APPROVED ✓  │ @alex (2026-09-18 10:14) │
+│ Gate 2: Specs (RFC 2119)  │ APPROVED ✓  │ @alex (2026-09-18 11:30) │
+│ Gate 3: Design            │ APPROVED ✓  │ @sara (2026-09-18 14:02) │
+│ Gate 4: Tasks             │ PENDING ⏳  │ Awaiting Human Review    │
+│ Gate 5: Apply Code        │ BLOCKED 🔒  │ Requires Gate 4 approval │
+│ Gate 6: Verify Tests      │ BLOCKED 🔒  │ Requires Gate 5 execution│
+│ Gate 7: Archive           │ BLOCKED 🔒  │ Pending Verification     │
+└───────────────────────────┴─────────────┴──────────────────────────┘</code></pre>
+      </div>
+
+      <!-- sdd verify -->
+      <div id="cli-verify" class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border space-y-3 scroll-mt-24">
+        <div class="flex items-center justify-between">
+          <code class="text-sdd-accent font-bold text-base">sdd verify [--strict]</code>
+          <span class="text-xs font-mono text-sdd-muted">Automated Test Validator</span>
+        </div>
+        <p class="text-xs text-sdd-muted font-sans">
+          Runs automated static checks against specs, ensures all task checkboxes are completed, and invokes your project test runner configured in <code class="text-sdd-text">config.yaml</code>.
+        </p>
+      </div>
+
+      <!-- sdd archive -->
+      <div id="cli-archive" class="p-5 rounded-xl bg-sdd-elevated border border-sdd-border space-y-3 scroll-mt-24">
+        <div class="flex items-center justify-between">
+          <code class="text-sdd-accent font-bold text-base">sdd archive &lt;feature-name&gt;</code>
+          <span class="text-xs font-mono text-sdd-muted">History Archival</span>
+        </div>
+        <p class="text-xs text-sdd-muted font-sans">
+          Moves the completed change from <code class="text-sdd-text">openspec/changes/</code> to <code class="text-sdd-text">openspec/changes/archive/</code>, freezes the files, and creates an audit commit in Git.
+        </p>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <div class="p-8 rounded-2xl bg-gradient-to-r from-sdd-elevated via-sdd-elevated to-sdd-bg border border-sdd-border text-center space-y-4">
+      <h3 class="text-2xl font-mono font-bold text-sdd-text">Ready to bring determinism to your AI engineering?</h3>
+      <p class="text-sdd-muted font-sans text-sm max-w-xl mx-auto">
+        Install SDD CLI in seconds, scaffold your repository, and never let an AI agent vibe-code your codebase again.
+      </p>
+      <div class="pt-2 flex justify-center gap-4">
+        <a 
+          href="/#install" 
+          class="px-6 py-2.5 rounded-lg bg-sdd-accent text-sdd-bg font-mono font-bold text-xs tracking-wide hover:bg-sdd-accent-alt transition-colors shadow-terminal"
+        >
+          Install SDD CLI
+        </a>
+        <a 
+          href="https://github.com/dedasema/sdd-cli" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="px-6 py-2.5 rounded-lg border border-sdd-border bg-sdd-elevated text-sdd-text font-mono text-xs hover:border-sdd-muted transition-colors"
+        >
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</DocsLayout>
