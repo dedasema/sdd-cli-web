@@ -1,0 +1,164 @@
+---
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props;
+const isEs = lang === 'es';
+---
+
+<section id="features" class="py-20 border-b border-sdd-border">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h2 class="text-xs font-mono uppercase tracking-widest text-sdd-accent mb-3">
+        {isEs ? 'Determinismo vs Alucinación' : 'Determinism vs Hallucination'}
+      </h2>
+      <h3 class="text-3xl sm:text-4xl font-mono font-bold text-sdd-text mb-4">
+        {isEs ? '¿Por qué Spec-Driven Development?' : 'Why Spec-Driven Development?'}
+      </h3>
+      <p class="text-sdd-muted font-sans leading-relaxed">
+        {isEs
+          ? 'Programar por sensaciones ("vibe-coding") genera deuda técnica catastrófica en bases de código reales. SDD establece contratos no negociables entre humanos e inteligencias artificiales.'
+          : 'Vibe-coding compounds technical debt across complex codebases. SDD establishes non-negotiable contracts between human intent and autonomous AI agents.'}
+      </p>
+    </div>
+
+    <!-- Comparison Grid (Chaotic Vibe vs SDD Rigor) -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+      <!-- Card: Chaotic Vibe-Coding -->
+      <div class="rounded-xl border border-red-900/40 bg-sdd-elevated/40 p-6 sm:p-8 relative overflow-hidden">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-red-900/30">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🚨</span>
+            <h4 class="font-mono font-bold text-red-400 text-lg sm:text-xl">
+              {isEs ? 'Vibe-Coding Caótico' : 'Chaotic Vibe-Coding'}
+            </h4>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-red-950/60 border border-red-800 text-red-400">
+            {isEs ? 'No Confiable' : 'Unreliable'}
+          </span>
+        </div>
+
+        <ul class="space-y-4 text-sm font-sans text-sdd-muted">
+          <li class="flex items-start gap-3">
+            <span class="text-red-400 font-mono font-bold shrink-0">✕</span>
+            <span>
+              <strong class="text-sdd-text block font-mono">{isEs ? 'Prompts Ambiguos' : 'Ambiguous Natural Language'}</strong>
+              {isEs 
+                ? 'Los modelos inventan APIs o implementan lógica parcial basándose en interpretaciones cambiantes.'
+                : 'Agents guess API contracts, invent methods, or hallucinate behaviors based on fleeting context.'}
+            </span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-red-400 font-mono font-bold shrink-0">✕</span>
+            <span>
+              <strong class="text-sdd-text block font-mono">{isEs ? 'Sin Puntos de Control Humanos' : 'Zero Human Gates'}</strong>
+              {isEs
+                ? 'El agente reescribe 30 archivos antes de que te des cuenta de que el diseño arquitectónico era defectuoso.'
+                : 'The agent overwrites 30 files before you realize its architectural assumptions were deeply flawed.'}
+            </span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-red-400 font-mono font-bold shrink-0">✕</span>
+            <span>
+              <strong class="text-sdd-text block font-mono">{isEs ? 'Regresiones Silenciosas' : 'Silent Regressions'}</strong>
+              {isEs
+                ? 'Criterios de aceptación no comprobables. Si pasa el linter se asume correcto, rompiendo flujos críticos.'
+                : 'Untestable acceptance criteria. Code that compiles is assumed to work, destroying critical business logic.'}
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card: SDD Determinism -->
+      <div class="rounded-xl border border-sdd-accent/40 bg-sdd-elevated/60 p-6 sm:p-8 relative overflow-hidden shadow-terminal">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-sdd-accent/30">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🛡️</span>
+            <h4 class="font-mono font-bold text-sdd-accent text-lg sm:text-xl">
+              {isEs ? 'Desarrollo Guiado por Specs' : 'Spec-Driven Rigor'}
+            </h4>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-sdd-accent/10 border border-sdd-accent/40 text-sdd-accent">
+            {isEs ? 'Determinista' : 'Deterministic'}
+          </span>
+        </div>
+
+        <ul class="space-y-4 text-sm font-sans text-sdd-muted">
+          <li class="flex items-start gap-3">
+            <span class="text-sdd-accent font-mono font-bold shrink-0">✓</span>
+            <span>
+              <strong class="text-sdd-text block font-mono">{isEs ? 'Especificaciones RFC 2119' : 'RFC 2119 Keyword Enforcement'}</strong>
+              {isEs
+                ? 'Términos formales (MUST, SHOULD, MAY, MUST NOT) eliminan ambigüedad y guían el razonamiento de la IA.'
+                : 'Normative language (MUST, SHOULD, MAY, MUST NOT) gives the LLM unambiguous, mathematical bounds.'}
+            </span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-sdd-accent font-mono font-bold shrink-0">✓</span>
+            <span>
+              <strong class="text-sdd-text block font-mono">{isEs ? 'Puntos de Control Humanos (Gates)' : 'Human Checkpoint Gates'}</strong>
+              {isEs
+                ? 'Ningún agente ejecuta código o toca archivos productivos sin la aprobación explícita de cada compuerta.'
+                : 'No agent touches code or implements features without human sign-off on the spec, design, and tasks.'}
+            </span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-sdd-accent font-mono font-bold shrink-0">✓</span>
+            <span>
+              <strong class="text-sdd-text block font-mono">{isEs ? 'Escenarios Given / When / Then' : 'Given / When / Then Scenarios'}</strong>
+              {isEs
+                ? 'Criterios de aceptación estructurados tipo Gherkin vinculados automáticamente con la verificación del CLI.'
+                : 'Automated acceptance criteria tied directly to verification suites before changes are archived.'}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Core Pillars / Differentiators -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="p-5 rounded-lg bg-sdd-elevated border border-sdd-border">
+        <div class="w-10 h-10 rounded-lg bg-sdd-bg border border-sdd-border flex items-center justify-center text-sdd-accent mb-4 font-mono font-bold">
+          01
+        </div>
+        <h5 class="font-mono font-bold text-sdd-text mb-2">
+          {isEs ? 'Contrato de Lenguaje' : 'Language Contract'}
+        </h5>
+        <p class="text-xs text-sdd-muted leading-relaxed">
+          {isEs
+            ? 'Chatea con tu agente en tu idioma natural (Español, etc.), mientras que todas las especificaciones, código y commits se generan en inglés técnico normativo.'
+            : 'Converse with your AI in any human language, while specifications, architecture, and code are strictly anchored in formal English.'}
+        </p>
+      </div>
+
+      <div class="p-5 rounded-lg bg-sdd-elevated border border-sdd-border">
+        <div class="w-10 h-10 rounded-lg bg-sdd-bg border border-sdd-border flex items-center justify-center text-sdd-accent-alt mb-4 font-mono font-bold">
+          02
+        </div>
+        <h5 class="font-mono font-bold text-sdd-text mb-2">
+          {isEs ? 'Soberanía en Git' : 'Git-Native Sovereignty'}
+        </h5>
+        <p class="text-xs text-sdd-muted leading-relaxed">
+          {isEs
+            ? 'Cero servicios externos ni telemetría opaca. Todas las propuestas, especificaciones y registros de tareas viven en tu repositorio dentro de .sdd/.'
+            : 'Zero vendor lock-in or proprietary cloud dependencies. Specs, proposals, and task checklists live cleanly inside your .sdd/ directory in Git.'}
+        </p>
+      </div>
+
+      <div class="p-5 rounded-lg bg-sdd-elevated border border-sdd-border">
+        <div class="w-10 h-10 rounded-lg bg-sdd-bg border border-sdd-border flex items-center justify-center text-sdd-warning mb-4 font-mono font-bold">
+          03
+        </div>
+        <h5 class="font-mono font-bold text-sdd-text mb-2">
+          {isEs ? 'Universal para Agentes' : 'Universal Agent Support'}
+        </h5>
+        <p class="text-xs text-sdd-muted leading-relaxed">
+          {isEs
+            ? 'Compatible de inmediato con Antigravity, Claude Code, Cursor Composer, GitHub Copilot, Codex, OpenCode y Zed.'
+            : 'Ready-to-use slash prompts and instructions tailored for Antigravity, Claude Code, Cursor, Copilot, Codex, and Zed.'}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

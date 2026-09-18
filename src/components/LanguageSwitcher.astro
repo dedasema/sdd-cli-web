@@ -1,0 +1,23 @@
+---
+interface Props {
+  currentLang: 'en' | 'es';
+}
+
+const { currentLang } = Astro.props;
+const targetUrl = currentLang === 'en' ? '/es/' : '/';
+const targetLabel = currentLang === 'en' ? 'ES' : 'EN';
+const altLabel = currentLang === 'en' ? 'Cambiar a Español' : 'Switch to English';
+---
+
+<a
+  href={targetUrl}
+  title={altLabel}
+  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono font-medium border border-sdd-border hover:border-sdd-accent text-sdd-muted hover:text-sdd-accent transition-all duration-150 bg-sdd-elevated/80"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <line x1="2" y1="12" x2="22" y2="12"></line>
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+  </svg>
+  <span>{targetLabel}</span>
+</a>

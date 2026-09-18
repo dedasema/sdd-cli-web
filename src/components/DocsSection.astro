@@ -1,0 +1,152 @@
+---
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props;
+const isEs = lang === 'es';
+
+const cliCommands = [
+  {
+    cmd: 'sdd',
+    args: '--help',
+    desc: isEs ? 'Muestra la ayuda interactiva y versión del CLI.' : 'Displays interactive overview, version, and global flags.'
+  },
+  {
+    cmd: 'sdd init',
+    args: '[--preset ai-agents]',
+    desc: isEs ? 'Inicializa la estructura .sdd/ en tu repositorio actual con templates.' : 'Scaffolds .sdd/ directory in current repo with prompt templates.'
+  },
+  {
+    cmd: 'sdd new',
+    args: '<feature-name>',
+    desc: isEs ? 'Crea una nueva rama de especificación con los 7 artefactos.' : 'Initializes a new feature branch with standard phase templates.'
+  },
+  {
+    cmd: 'sdd status',
+    args: '',
+    desc: isEs ? 'Inspecciona el estado de compuertas (Gates) y tareas completadas.' : 'Inspects active gates, phase progress, and pending human approvals.'
+  },
+  {
+    cmd: 'sdd verify',
+    args: '[--strict]',
+    desc: isEs ? 'Ejecuta validaciones automáticas, linters de spec y suites de tests.' : 'Validates RFC 2119 keywords, checklist completion, and test runner.'
+  },
+  {
+    cmd: 'sdd archive',
+    args: '<feature-name>',
+    desc: isEs ? 'Mueve la especificación completada al directorio .sdd/archive/.' : 'Freezes and archives the completed feature into immutable git history.'
+  }
+];
+
+const slashCommands = [
+  { name: '/sdd', desc: isEs ? 'Asistente interactivo general para el flujo SDD' : 'General interactive orchestrator for the SDD workflow' },
+  { name: '/sdd-init', desc: isEs ? 'Inicializa directrices del proyecto y genera contexto' : 'Bootstraps project instructions and agent context' },
+  { name: '/sdd-new', desc: isEs ? 'Crea una nueva propuesta pidiendo detalles clave' : 'Spawns a new proposal asking required discovery questions' },
+  { name: '/sdd-propose', desc: isEs ? 'Genera o refina el documento 01_proposal.md' : 'Drafts or refines the 01_proposal.md specification' },
+  { name: '/sdd-spec', desc: isEs ? 'Redacta los requisitos normativos RFC 2119 y Given/When/Then' : 'Enforces RFC 2119 and Given/When/Then scenarios' },
+  { name: '/sdd-design', desc: isEs ? 'Genera arquitectura técnica, schemas y diagramas' : 'Produces technical architecture, schemas, and diagrams' },
+  { name: '/sdd-tasks', desc: isEs ? 'Desglosa la implementación en tareas atómicas y ordenadas' : 'Breaks design into atomic, ordered implementation tasks' },
+  { name: '/sdd-apply', desc: isEs ? 'Ejecuta el código siguiendo estrictamente 04_tasks.md' : 'Writes code according strictly to task checklist' },
+  { name: '/sdd-verify', desc: isEs ? 'Corre pruebas y confirma que se satisfacen los criterios' : 'Executes test suite and validates acceptance criteria' },
+  { name: '/sdd-archive', desc: isEs ? 'Empaqueta la especificación terminada para la posteridad' : 'Packages the completed feature record for history' },
+];
+---
+
+<section id="docs" class="py-20 border-b border-sdd-border">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h2 class="text-xs font-mono uppercase tracking-widest text-sdd-accent mb-3">
+        {isEs ? 'Referencia Técnica' : 'Technical Reference'}
+      </h2>
+      <h3 class="text-3xl sm:text-4xl font-mono font-bold text-sdd-text mb-4">
+        {isEs ? 'Comandos del CLI y Slash AI' : 'CLI & AI Slash Commands'}
+      </h3>
+      <p class="text-sdd-muted font-sans leading-relaxed">
+        {isEs
+          ? 'Control total tanto desde tu terminal como directamente en la ventana de chat con tus asistentes de IA.'
+          : 'Unified tooling designed to be executed via command line or triggered directly inside your AI IDE chat.'}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      <!-- CLI Commands Guide -->
+      <div class="bg-sdd-elevated border border-sdd-border rounded-xl p-6 sm:p-8">
+        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-sdd-border">
+          <div class="p-2 rounded bg-sdd-bg border border-sdd-border text-sdd-accent font-mono text-sm font-bold">
+            &gt;_
+          </div>
+          <div>
+            <h4 class="font-mono font-bold text-sdd-text text-lg">
+              {isEs ? 'Comandos CLI del Sistema' : 'System CLI Commands'}
+            </h4>
+            <p class="text-xs text-sdd-muted font-sans">
+              {isEs ? 'Ejecutables en PowerShell, Bash, Zsh o cmd' : 'Runnable in PowerShell, Bash, Zsh, or CMD'}
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4 font-mono text-xs">
+          {cliCommands.map((c) => (
+            <div class="p-3.5 rounded-lg bg-sdd-bg/80 border border-sdd-border/70 hover:border-sdd-border transition-colors">
+              <div class="flex items-baseline gap-2 mb-1.5 flex-wrap">
+                <span class="text-sdd-accent font-bold text-sm">{c.cmd}</span>
+                {c.args && <span class="text-sdd-accent-alt">{c.args}</span>}
+              </div>
+              <p class="font-sans text-sdd-muted text-xs leading-relaxed">
+                {c.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- AI Slash Commands -->
+      <div id="slash-commands" class="bg-sdd-elevated border border-sdd-border rounded-xl p-6 sm:p-8">
+        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-sdd-border">
+          <div class="p-2 rounded bg-sdd-bg border border-sdd-border text-sdd-accent-alt font-mono text-sm font-bold">
+            /
+          </div>
+          <div>
+            <h4 class="font-mono font-bold text-sdd-text text-lg">
+              {isEs ? 'Comandos Slash para Agentes de IA' : 'AI Slash Commands'}
+            </h4>
+            <p class="text-xs text-sdd-muted font-sans">
+              {isEs ? 'Escribe estos prompts en Cursor, Antigravity, Claude Code o Copilot' : 'Type these commands directly in Antigravity, Claude Code, Cursor, Copilot'}
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+          {slashCommands.map((sc) => (
+            <div class="p-3 rounded-lg bg-sdd-bg/80 border border-sdd-border/70 hover:border-sdd-accent/40 transition-colors">
+              <span class="text-sdd-accent-alt font-bold block mb-1">{sc.name}</span>
+              <p class="font-sans text-sdd-muted text-[11px] leading-snug">
+                {sc.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <!-- Language Contract Box -->
+        <div class="mt-6 p-4 rounded-lg bg-sdd-bg border border-sdd-accent/30 text-xs">
+          <div class="flex items-center gap-2 text-sdd-accent font-mono font-bold mb-2">
+            <span>🌐</span>
+            <span>{isEs ? 'El Contrato de Idioma de SDD' : 'The SDD Language Contract'}</span>
+          </div>
+          <p class="font-sans text-sdd-muted leading-relaxed">
+            {isEs ? (
+              <>
+                <strong>Regla de Oro:</strong> Habla en tu idioma preferido (ej. Español) en el chat con tu agente. Sin embargo, todos los archivos generados en <code class="text-sdd-text">.sdd/</code>, especificaciones RFC 2119, código fuente, nombres de variables y mensajes de commit <em>SIEMPRE</em> se mantienen en inglés técnico estándar.
+              </>
+            ) : (
+              <>
+                <strong>Golden Rule:</strong> Converse naturally in your human tongue (e.g. Spanish, German, French) with your AI assistant. However, all generated specifications in <code class="text-sdd-text">.sdd/</code>, RFC 2119 keywords, code, schemas, and commit logs are <em>STRICTLY</em> written in standardized technical English.
+              </>
+            )}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

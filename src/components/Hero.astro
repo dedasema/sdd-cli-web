@@ -1,0 +1,100 @@
+---
+import InstallTabs from './InstallTabs.astro';
+
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props;
+const isEs = lang === 'es';
+---
+
+<section class="relative pt-20 pb-16 md:pt-28 md:pb-24 overflow-hidden border-b border-sdd-border">
+  <!-- Subtle grid background pattern -->
+  <div class="absolute inset-0 bg-[linear-gradient(to_right,#30363d15_1px,transparent_1px),linear-gradient(to_bottom,#30363d15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none -z-10"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-4xl mx-auto">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-sdd-accent/30 bg-sdd-accent/10 text-sdd-accent text-xs font-mono mb-8 backdrop-blur-sm animate-pulse">
+        <span class="w-2 h-2 rounded-full bg-sdd-accent"></span>
+        {isEs ? 'Spec-Driven Development para Agentes de IA' : 'Spec-Driven Development for AI Agents'}
+      </div>
+
+      <!-- Main Headline with SDD CLI wordmark rules -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-mono font-bold tracking-tight text-sdd-text mb-6">
+        <span class="block">Stop vibe-coding.</span>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-sdd-accent via-sdd-accent-alt to-emerald-400">
+          {isEs ? 'Pon puntos de control donde los humanos deciden.' : 'Put checkpoints where humans decide.'}
+        </span>
+      </h1>
+
+      <!-- Value Proposition Subtitle -->
+      <p class="text-lg sm:text-xl text-sdd-muted max-w-2xl mx-auto mb-10 leading-relaxed font-sans">
+        {isEs ? (
+          <>
+            Los agentes de IA no deberían escribir código a ciegas. <strong class="text-sdd-text font-mono font-medium">SDD-CLI</strong> impone un ciclo de 7 fases con especificaciones formales (<span class="text-sdd-accent-alt font-mono">RFC 2119</span> y <span class="text-sdd-accent-alt font-mono">Given/When/Then</span>) antes de tocar el código base.
+          </>
+        ) : (
+          <>
+            AI agents shouldn&apos;t blindly write code. <strong class="text-sdd-text font-mono font-medium">SDD-CLI</strong> enforces a rigorous 7-phase cycle with formal specifications (<span class="text-sdd-accent-alt font-mono">RFC 2119</span> and <span class="text-sdd-accent-alt font-mono">Given/When/Then</span>) before touching your codebase.
+          </>
+        )}
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-4 mb-14">
+        <a
+          href="#install"
+          class="px-6 py-3 rounded-lg bg-sdd-accent text-sdd-bg font-mono font-bold text-sm tracking-wide hover:bg-sdd-accent-alt transition-colors duration-200 shadow-terminal inline-flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+          {isEs ? 'Comenzar Ahora' : 'Get Started'}
+        </a>
+        <a
+          href="#lifecycle"
+          class="px-6 py-3 rounded-lg border border-sdd-border bg-sdd-elevated text-sdd-text font-mono text-sm hover:border-sdd-muted hover:text-white transition-all duration-200 inline-flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sdd-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          {isEs ? 'Ver el Ciclo de 7 Fases' : 'Explore 7-Phase Cycle'}
+        </a>
+        <a
+          href="https://github.com/dedasema/sdd-cli"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="px-6 py-3 rounded-lg border border-sdd-border hover:border-sdd-muted text-sdd-muted hover:text-sdd-text font-mono text-sm transition-all duration-200 inline-flex items-center gap-2"
+        >
+          GitHub
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 17l9.2-9.2M17 17V7H7"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Interactive Installer Snippet -->
+      <div id="install" class="max-w-2xl mx-auto text-left">
+        <InstallTabs lang={lang} />
+      </div>
+
+      <!-- Supported Environments Row -->
+      <div class="mt-14 pt-8 border-t border-sdd-border/60">
+        <p class="text-xs uppercase tracking-widest font-mono text-sdd-muted mb-4">
+          {isEs ? 'Integrado nativamente en tus entornos de IA favoritos' : 'Natively integrated across your favorite AI environments'}
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs font-mono text-sdd-muted">
+          {['Antigravity', 'Claude Code', 'Cursor', 'GitHub Copilot', 'OpenAI Codex', 'OpenCode', 'Zed'].map((tool) => (
+            <span class="px-3 py-1 rounded-md bg-sdd-elevated border border-sdd-border hover:border-sdd-accent-alt hover:text-sdd-text transition-colors">
+              {tool}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,166 @@
+---
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props;
+const isEs = lang === 'es';
+
+const phases = [
+  {
+    num: 1,
+    id: 'proposal',
+    name: isEs ? 'Propuesta' : 'Proposal',
+    icon: '📄',
+    gateName: 'Gate 1',
+    gateDesc: isEs ? 'Aprobación del problema y alcance' : 'Problem & scope sign-off',
+    desc: isEs ? 'Define el problema de negocio, justificación y alcance inicial.' : 'Documents business intent, user needs, and solution scope.',
+    file: '01_proposal.md',
+    status: 'approved'
+  },
+  {
+    num: 2,
+    id: 'specs',
+    name: isEs ? 'Especificaciones' : 'Specs',
+    icon: '📋',
+    gateName: 'Gate 2',
+    gateDesc: isEs ? 'Validación de RFC 2119 y Given/When/Then' : 'RFC 2119 & acceptance criteria validated',
+    desc: isEs ? 'Define requerimientos formales normativos y escenarios de prueba.' : 'Specifies MUST/SHOULD criteria and Given/When/Then behaviors.',
+    file: '02_specs.md',
+    status: 'approved'
+  },
+  {
+    num: 3,
+    id: 'design',
+    name: isEs ? 'Diseño' : 'Design',
+    icon: '⚙️',
+    gateName: 'Gate 3',
+    gateDesc: isEs ? 'Revisión de arquitectura y riesgos' : 'Architecture & security checkpoint',
+    desc: isEs ? 'Arquitectura técnica, modelos de datos y diagramas de secuencia.' : 'Technical architecture, schemas, trade-offs, and sequence diagrams.',
+    file: '03_design.md',
+    status: 'approved'
+  },
+  {
+    num: 4,
+    id: 'tasks',
+    name: isEs ? 'Tareas' : 'Tasks',
+    icon: '☑️',
+    gateName: 'Gate 4',
+    gateDesc: isEs ? 'Desglose atómico de pasos de código' : 'Granular task list approval',
+    desc: isEs ? 'Lista de tareas atomizadas con dependencias y orden de ejecución.' : 'Atomic, dependency-ordered tasks ready for agent dispatch.',
+    file: '04_tasks.md',
+    status: 'pending'
+  },
+  {
+    num: 5,
+    id: 'apply',
+    name: isEs ? 'Aplicar' : 'Apply',
+    icon: '🔨',
+    gateName: 'Gate 5',
+    gateDesc: isEs ? 'Implementación de cambios por el agente' : 'Agent executing code edits',
+    desc: isEs ? 'El agente de IA escribe y refactoriza el código siguiendo las tareas.' : 'AI agent writes code, files, and tests according to tasks.',
+    file: 'src/...',
+    status: 'pending'
+  },
+  {
+    num: 6,
+    id: 'verify',
+    name: isEs ? 'Verificar' : 'Verify',
+    icon: '🔍',
+    gateName: 'Gate 6',
+    gateDesc: isEs ? 'Tests, linter y validación de criterios' : 'Test suite & contract check',
+    desc: isEs ? 'Ejecución de tests automatizados, verificación de criterios y linter.' : 'Automated test suites, static analysis, and spec compliance check.',
+    file: 'sdd verify',
+    status: 'pending'
+  },
+  {
+    num: 7,
+    id: 'archive',
+    name: isEs ? 'Archivar' : 'Archive',
+    icon: '📦',
+    gateName: 'Final',
+    gateDesc: isEs ? 'Empaquetado en historial inmutable' : 'Immutable history record',
+    desc: isEs ? 'Mueve la especificación completada al historial inmutable del repositorio.' : 'Archives completed spec directory into historical .sdd records.',
+    file: '.sdd/archive/',
+    status: 'pending'
+  }
+];
+---
+
+<section id="lifecycle" class="py-20 border-b border-sdd-border bg-sdd-elevated/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h2 class="text-xs font-mono uppercase tracking-widest text-sdd-accent mb-3">
+        {isEs ? 'El Ciclo Determinista' : 'Deterministic Lifecycle'}
+      </h2>
+      <h3 class="text-3xl sm:text-4xl font-mono font-bold text-sdd-text mb-4">
+        {isEs ? '7 Fases. Compuertas Humanas Explícitas.' : '7 Phases. Explicit Human Gates.'}
+      </h3>
+      <p class="text-sdd-muted font-sans leading-relaxed">
+        {isEs
+          ? 'Ningún agente salta directamente al código. Cada compuerta actúa como un firewall de calidad antes de avanzar a la siguiente fase.'
+          : 'Agents are prevented from writing code until human stakeholders validate intent and architecture. Green gates are approved; amber gates represent pending checkpoints.'}
+      </p>
+    </div>
+
+    <!-- Interactive Phase Flow -->
+    <div class="relative">
+      <!-- Horizontal Scrollable Track for Mobile & Grid for Desktop -->
+      <div class="grid grid-cols-1 md:grid-cols-7 gap-4 relative z-10">
+        {phases.map((phase, idx) => {
+          const isApproved = phase.status === 'approved';
+          return (
+            <div class="flex flex-col relative group">
+              <!-- Phase Card -->
+              <div class="bg-sdd-elevated border border-sdd-border hover:border-sdd-accent-alt rounded-xl p-4 transition-all duration-200 flex flex-col h-full shadow-sm hover:shadow-cyan-glow">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-6 h-6 rounded-full bg-sdd-bg border border-sdd-border text-xs font-mono font-bold flex items-center justify-center text-sdd-muted">
+                    {phase.num}
+                  </span>
+                  <span class="text-xl" role="img" aria-label={phase.name}>{phase.icon}</span>
+                </div>
+
+                <h4 class="font-mono font-bold text-sm text-sdd-text group-hover:text-sdd-accent transition-colors mb-1">
+                  {phase.name}
+                </h4>
+
+                <p class="text-xs font-sans text-sdd-muted mb-4 flex-grow leading-snug">
+                  {phase.desc}
+                </p>
+
+                <div class="pt-2 border-t border-sdd-border/60 flex items-center justify-between">
+                  <span class="font-mono text-[10px] text-sdd-muted">{phase.file}</span>
+                </div>
+              </div>
+
+              <!-- Gate Indicator beneath/between cards -->
+              {idx < phases.length - 1 && (
+                <div class="mt-2 text-center hidden md:block">
+                  <div class={isApproved ? "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono border border-sdd-accent/40 bg-sdd-accent/10 text-sdd-accent" : "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono border border-sdd-warning/40 bg-sdd-warning/10 text-sdd-warning"}>
+                    <span>{isApproved ? '✓ Gate Approved' : '⏳ Gate Checkpoint'}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <!-- Legend -->
+      <div class="mt-12 flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-sdd-muted border-t border-sdd-border pt-6">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-sdd-accent inline-block shadow-[0_0_8px_#39D353]"></span>
+          <span>{isEs ? 'Compuerta Aprobada (Continuar)' : 'Gate Approved (Green #39D353)'}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-sdd-warning inline-block shadow-[0_0_8px_#F0A020]"></span>
+          <span>{isEs ? 'Compuerta Pendiente (Punto de Control Humano)' : 'Gate Pending (Amber #F0A020 checkpoint)'}</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-md bg-sdd-elevated border border-sdd-border inline-block"></span>
+          <span>{isEs ? 'Artefactos Versionados en Git' : 'Git Versioned Artifacts'}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

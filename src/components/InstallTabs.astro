@@ -1,0 +1,178 @@
+---
+interface Props {
+  lang?: 'en' | 'es';
+}
+
+const { lang = 'en' } = Astro.props;
+const isEs = lang === 'es';
+
+const options = [
+  {
+    id: 'pwsh',
+    label: 'Windows (PowerShell)',
+    icon: '🪟',
+    cmd: 'irm https://sdd-cli.dev/install.ps1 | iex',
+    comment: isEs ? '# Instala sdd globalmente en Windows' : '# Installs sdd globally on Windows'
+  },
+  {
+    id: 'bash',
+    label: 'macOS / Linux',
+    icon: '🐧',
+    cmd: 'curl -fsSL https://sdd-cli.dev/install.sh | bash',
+    comment: isEs ? '# Instala sdd en ~/.sdd/bin' : '# Installs sdd into ~/.sdd/bin'
+  },
+  {
+    id: 'pnpm',
+    label: 'PNPM / NPM',
+    icon: '📦',
+    cmd: 'pnpm add -g sdd-cli',
+    altCmd: 'npm install -g sdd-cli',
+    comment: isEs ? '# Instalador de paquete global Node.js' : '# Global Node.js package install'
+  },
+  {
+    id: 'npx',
+    label: 'NPX (Zero-install)',
+    icon: '⚡',
+    cmd: 'npx sdd-cli init',
+    comment: isEs ? '# Ejecuta directamente sin instalar nada' : '# Run immediately without prior installation'
+  }
+];
+---
+
+<div class="bg-sdd-elevated border border-sdd-border rounded-xl shadow-2xl overflow-hidden" id="install-switcher">
+  <!-- Window Header -->
+  <div class="px-4 py-3 bg-sdd-bg border-b border-sdd-border flex flex-wrap items-center justify-between gap-2">
+    <!-- Window buttons -->
+    <div class="flex items-center gap-2">
+      <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
+      <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+      <span class="w-3 h-3 rounded-full bg-green-500/80 inline-block"></span>
+      <span class="ml-2 text-xs font-mono text-sdd-muted">terminal - sdd install</span>
+    </div>
+
+    <!-- Tab triggers -->
+    <div class="flex items-center gap-1 bg-sdd-elevated p-1 rounded-lg border border-sdd-border/60 text-xs font-mono">
+      {options.map((opt, i) => (
+        <button
+          type="button"
+          data-tab={opt.id}
+          class={i === 0 
+            ? "tab-btn px-2.5 py-1 rounded transition-all flex items-center gap-1.5 bg-sdd-border text-sdd-accent font-semibold" 
+            : "tab-btn px-2.5 py-1 rounded transition-all flex items-center gap-1.5 text-sdd-muted hover:text-sdd-text hover:bg-sdd-border/40"}
+        >
+          <span>{opt.icon}</span>
+          <span class="hidden sm:inline">{opt.label}</span>
+          <span class="sm:hidden">{opt.id.toUpperCase()}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Terminal Content Panes -->
+  <div class="p-5 font-mono text-sm">
+    {options.map((opt, i) => (
+      <div id={"pane-" + opt.id} class={i === 0 ? "tab-pane block" : "tab-pane hidden"}>
+        <div class="text-sdd-muted text-xs mb-2 select-none">{opt.comment}</div>
+        <div class="flex items-center justify-between gap-3 bg-sdd-bg/90 border border-sdd-border/70 rounded-lg p-3 group">
+          <div class="flex items-center gap-3 overflow-x-auto">
+            <span class="text-sdd-accent select-none font-bold">$</span>
+            <code class="text-sdd-text text-sm whitespace-nowrap" id={"cmd-" + opt.id}>{opt.cmd}</code>
+          </div>
+          <button
+            type="button"
+            data-target={"cmd-" + opt.id}
+            class="copy-btn px-2.5 py-1 rounded bg-sdd-elevated border border-sdd-border text-xs text-sdd-muted hover:text-sdd-accent hover:border-sdd-accent transition-colors flex items-center gap-1 shrink-0"
+            title="Copy command"
+          >
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span class="copy-label">{isEs ? 'Copiar' : 'Copy'}</span>
+          </button>
+        </div>
+
+        {opt.altCmd && (
+          <div class="mt-3 flex items-center justify-between gap-3 bg-sdd-bg/50 border border-sdd-border/40 rounded-lg p-2.5 text-xs text-sdd-muted">
+            <div class="flex items-center gap-2 overflow-x-auto">
+              <span class="text-sdd-muted select-none">alt:</span>
+              <code id={"cmd-alt-" + opt.id}>{opt.altCmd}</code>
+            </div>
+            <button
+              type="button"
+              data-target={"cmd-alt-" + opt.id}
+              class="copy-btn px-2 py-0.5 rounded bg-sdd-elevated border border-sdd-border text-[11px] hover:text-sdd-accent hover:border-sdd-accent transition-colors shrink-0"
+            >
+              {isEs ? 'Copiar' : 'Copy'}
+            </button>
+          </div>
+        )}
+      </div>
+    ))}
+
+    <!-- Next steps hint -->
+    <div class="mt-4 pt-3 border-t border-sdd-border/50 text-xs text-sdd-muted flex items-center justify-between">
+      <span>
+        {isEs ? 'Luego inicializa tu proyecto:' : 'Then initialize your repo:'} 
+        <span class="text-sdd-accent font-semibold ml-1">sdd init</span>
+      </span>
+      <span class="text-[11px] text-sdd-accent-alt">0 dependencies in production</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Tab switching logic
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panes = document.querySelectorAll('.tab-pane');
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-tab');
+
+      tabs.forEach((t) => {
+        t.classList.remove('bg-sdd-border', 'text-sdd-accent', 'font-semibold');
+        t.classList.add('text-sdd-muted');
+      });
+      tab.classList.add('bg-sdd-border', 'text-sdd-accent', 'font-semibold');
+      tab.classList.remove('text-sdd-muted');
+
+      panes.forEach((pane) => {
+        pane.classList.add('hidden');
+        pane.classList.remove('block');
+      });
+
+      const activePane = document.getElementById('pane-' + target);
+      if (activePane) {
+        activePane.classList.remove('hidden');
+        activePane.classList.add('block');
+      }
+    });
+  });
+
+  // Copy-to-clipboard logic
+  const copyButtons = document.querySelectorAll('.copy-btn');
+  copyButtons.forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const targetId = btn.getAttribute('data-target');
+      const targetEl = targetId ? document.getElementById(targetId) : null;
+      if (!targetEl) return;
+
+      const text = targetEl.textContent || '';
+      try {
+        await navigator.clipboard.writeText(text.trim());
+        const label = btn.querySelector('.copy-label') || btn;
+        const originalText = label.textContent;
+        label.textContent = 'Copied! ✓';
+        btn.classList.add('text-sdd-accent', 'border-sdd-accent');
+
+        setTimeout(() => {
+          label.textContent = originalText;
+          btn.classList.remove('text-sdd-accent', 'border-sdd-accent');
+        }, 2000);
+      } catch (err) {
+        console.error('Clipboard copy failed', err);
+      }
+    });
+  });
+</script>
