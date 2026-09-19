@@ -11,14 +11,14 @@ const options = [
     id: 'pwsh',
     label: 'Windows (PowerShell)',
     icon: '🪟',
-    cmd: 'irm https://sdd-cli.dev/install.ps1 | iex',
+    cmd: 'irm https://raw.githubusercontent.com/dedasema/sdd-cli/main/scripts/install.ps1 | iex',
     comment: isEs ? '# Instala sdd globalmente en Windows' : '# Installs sdd globally on Windows'
   },
   {
     id: 'bash',
-    label: 'macOS / Linux',
+    label: 'macOS / Linux (Bash / Zsh)',
     icon: '🐧',
-    cmd: 'curl -fsSL https://sdd-cli.dev/install.sh | bash',
+    cmd: 'curl -fsSL https://raw.githubusercontent.com/dedasema/sdd-cli/main/scripts/install.sh | bash',
     comment: isEs ? '# Instala sdd en ~/.sdd/bin' : '# Installs sdd into ~/.sdd/bin'
   },
   {
