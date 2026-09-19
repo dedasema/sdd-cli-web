@@ -12,29 +12,25 @@ const options = [
     label: 'Windows (PowerShell)',
     icon: '🪟',
     cmd: 'irm https://raw.githubusercontent.com/dedasema/sdd-cli/main/scripts/install.ps1 | iex',
-    comment: isEs ? '# Instala sdd globalmente en Windows' : '# Installs sdd globally on Windows'
+    comment: isEs ? '# Script oficial para Windows vía PowerShell' : '# Official Windows installer via PowerShell'
   },
   {
     id: 'bash',
     label: 'macOS / Linux (Bash / Zsh)',
     icon: '🐧',
     cmd: 'curl -fsSL https://raw.githubusercontent.com/dedasema/sdd-cli/main/scripts/install.sh | bash',
-    comment: isEs ? '# Instala sdd en ~/.sdd/bin' : '# Installs sdd into ~/.sdd/bin'
+    comment: isEs ? '# Script oficial para macOS / Linux en ~/.sdd/bin' : '# Official macOS / Linux installer into ~/.sdd/bin'
   },
   {
-    id: 'pnpm',
-    label: 'PNPM / NPM',
+    id: 'pkg',
+    label: isEs ? 'Gestor de Paquetes (Cualquier SO)' : 'Package Managers (Universal)',
     icon: '📦',
-    cmd: 'pnpm add -g sdd-cli',
-    altCmd: 'npm install -g sdd-cli',
-    comment: isEs ? '# Instalador de paquete global Node.js' : '# Global Node.js package install'
-  },
-  {
-    id: 'npx',
-    label: 'NPX (Zero-install)',
-    icon: '⚡',
-    cmd: 'npx sdd-cli init',
-    comment: isEs ? '# Ejecuta directamente sin instalar nada' : '# Run immediately without prior installation'
+    cmd: 'npm install -g @dedasema/sdd-cli@latest',
+    altCmd: 'pnpm add -g @dedasema/sdd-cli@latest',
+    nextCmd: 'sdd setup',
+    comment: isEs
+      ? '# Instalación universal vía Node.js (npm / pnpm)'
+      : '# Universal installation via Node.js (npm / pnpm)'
   }
 ];
 ---
@@ -95,7 +91,7 @@ const options = [
         {opt.altCmd && (
           <div class="mt-3 flex items-center justify-between gap-3 bg-sdd-bg/50 border border-sdd-border/40 rounded-lg p-2.5 text-xs text-sdd-muted">
             <div class="flex items-center gap-2 overflow-x-auto">
-              <span class="text-sdd-muted select-none">alt:</span>
+              <span class="text-sdd-muted select-none">alt (pnpm):</span>
               <code id={"cmd-alt-" + opt.id}>{opt.altCmd}</code>
             </div>
             <button
@@ -105,6 +101,27 @@ const options = [
             >
               {isEs ? 'Copiar' : 'Copy'}
             </button>
+          </div>
+        )}
+
+        {opt.nextCmd && (
+          <div class="mt-3 p-3 rounded-lg bg-sdd-bg/40 border border-sdd-border/50 text-xs">
+            <div class="text-[11px] font-mono text-sdd-muted mb-1.5">
+              {isEs ? '# Luego sincronizás los entornos de AI:' : '# Then synchronize AI agent environments:'}
+            </div>
+            <div class="flex items-center justify-between gap-3 bg-sdd-bg/90 border border-sdd-border/70 rounded-lg p-2.5">
+              <div class="flex items-center gap-2">
+                <span class="text-sdd-accent font-bold">$</span>
+                <code class="text-sdd-accent font-semibold" id={"cmd-next-" + opt.id}>{opt.nextCmd}</code>
+              </div>
+              <button
+                type="button"
+                data-target={"cmd-next-" + opt.id}
+                class="copy-btn px-2 py-0.5 rounded bg-sdd-elevated border border-sdd-border text-[11px] hover:text-sdd-accent hover:border-sdd-accent transition-colors shrink-0"
+              >
+                {isEs ? 'Copiar' : 'Copy'}
+              </button>
+            </div>
           </div>
         )}
       </div>
