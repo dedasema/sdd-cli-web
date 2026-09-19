@@ -75,10 +75,16 @@ const {
     overflow-wrap: normal;
   }
 
-  /* Prevent table and generic elements from breaking grid track on mobile */
-  table {
-    display: block;
+  /* Table overflow handling */
+  .table-responsive {
+    width: 100%;
     max-width: 100%;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-responsive table {
+    min-width: 600px;
+    width: 100%;
   }
 </style>

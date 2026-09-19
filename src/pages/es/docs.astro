@@ -74,13 +74,13 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
         El "vibe-coding" es el antipatrón de alimentar al asistente con prompts conversacionales abiertos y ambiguos esperando que la implementación satisfaga restricciones no declaradas. Compara ambos paradigmas:
       </p>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs font-mono border border-sdd-border rounded-lg overflow-hidden">
+      <div class="table-responsive border border-sdd-border rounded-lg overflow-x-auto shadow-inner my-4">
+        <table class="w-full min-w-[620px] text-left text-xs font-mono">
           <thead class="bg-sdd-elevated text-sdd-text uppercase border-b border-sdd-border">
             <tr>
-              <th class="p-3">Dimensión</th>
-              <th class="p-3 text-red-400">Vibe-Coding (Caótico)</th>
-              <th class="p-3 text-sdd-accent">SDD (Guiado por Specs)</th>
+              <th class="p-3 w-1/4">Dimensión</th>
+              <th class="p-3 w-3/8 text-red-400">Vibe-Coding (Caótico)</th>
+              <th class="p-3 w-3/8 text-sdd-accent">SDD (Guiado por Specs)</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-sdd-border bg-sdd-bg">
@@ -111,6 +111,9 @@ import DocsLayout from '../../layouts/DocsLayout.astro';
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="sm:hidden flex items-center justify-end gap-1 text-[11px] font-mono text-sdd-muted mt-1">
+        <span>⟵ desliza para ver la comparativa completa ⟶</span>
       </div>
     </section>
 
