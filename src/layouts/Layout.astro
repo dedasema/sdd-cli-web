@@ -18,7 +18,7 @@ const {
 ---
 
 <!doctype html>
-<html lang={lang} class="scroll-smooth">
+<html lang={lang} class="scroll-smooth overflow-x-hidden w-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,13 +32,13 @@ const {
     <meta property="og:image" content="/sdd-logo.svg" />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
-  <body class="bg-sdd-bg text-sdd-text font-sans antialiased min-h-screen flex flex-col selection:bg-sdd-accent/20 selection:text-sdd-accent">
+  <body class="bg-sdd-bg text-sdd-text font-sans antialiased min-h-screen flex flex-col selection:bg-sdd-accent/20 selection:text-sdd-accent overflow-x-hidden w-full relative">
     <!-- Subtle top glow -->
     <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-64 bg-gradient-to-b from-sdd-accent/10 to-transparent pointer-events-none -z-10 blur-3xl opacity-60"></div>
     
     <Navbar lang={lang} />
     
-    <main class="flex-grow">
+    <main class="flex-grow w-full max-w-full overflow-x-hidden">
       <slot />
     </main>
     
@@ -65,5 +65,20 @@ const {
 
   code, pre {
     font-family: 'JetBrains Mono Variable', monospace;
+  }
+
+  pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+
+  /* Prevent table and generic elements from breaking grid track on mobile */
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
   }
 </style>
